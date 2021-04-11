@@ -19,15 +19,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor // necesario para cargarlo desde @ConfigurationProperties - el @AllArgsConstructor lo quita
 @Entity
-@Table(name = "User")
+@Table(name = "Users")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "UserId", nullable = false)
 	private Long id;
 
-	@Column(name = "loginName", nullable = false, length = 100)
-	private String loginName;
+	@Column(name = "userName", nullable = false, length = 100)
+	private String userName;
 
 	@Column(name = "firstName", length = 100)
 	private String firstName;
