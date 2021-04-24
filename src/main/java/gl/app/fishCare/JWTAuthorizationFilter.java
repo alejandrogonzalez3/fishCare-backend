@@ -24,6 +24,7 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
 	private final String HEADER = "Authorization";
 	private final String PREFIX = "Bearer ";
+	// Put on settings or something
 	private final String SECRET = "mySecretKey";
 
 	@Override
