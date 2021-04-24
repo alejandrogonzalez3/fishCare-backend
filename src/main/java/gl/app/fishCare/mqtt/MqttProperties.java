@@ -8,7 +8,6 @@ import lombok.Data;
 @ConfigurationProperties(prefix = "mqtt")
 public class MqttProperties {
 
-
 	private String username;
 
 	private String password;
