@@ -22,14 +22,14 @@ public class FishCareApplication {
 
 		private final String[] AUTH_WHITELIST = {
 				// -- swagger ui
-				"/swagger-resources/**", "/swagger-ui.html", "/v2/api-docs", "/webjars/**" };
+				"/swagger-resources/**", "/swagger-ui.html", "/v2/api-docs", "/webjars/**", "/example/" };
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http.csrf().disable()
 			.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.authorizeRequests().antMatchers(HttpMethod.POST, "/user/**").permitAll().antMatchers(AUTH_WHITELIST)
-			.permitAll().anyRequest().authenticated();
+			.permitAll().antMatchers(HttpMethod.POST, "/example").permitAll().anyRequest().authenticated();
 		}
 	}
 

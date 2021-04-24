@@ -23,6 +23,7 @@ public class UserService {
 
 		final String encryptedPassword = passwordEncoder.encode(user.getPassword());
 		user.setEncryptedPassword(encryptedPassword);
+
 		// TODO: Avoid to save this field in the Database
 		user.setPassword(null);
 
@@ -30,7 +31,7 @@ public class UserService {
 	}
 
 	public void login(String username, String password) throws InvalidLoginException {
-		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		new BCryptPasswordEncoder();
 		Optional<User> optionalUser = userRepository.findByUserName(username);
 
 		if (!optionalUser.isPresent()) {
@@ -38,8 +39,6 @@ public class UserService {
 		}
 
 		User user = optionalUser.get();
-
-		final String encryptedPassword = passwordEncoder.encode(password);
 
 		if (!BCrypt.checkpw(password, user.getEncryptedPassword())) {
 			throw new InvalidLoginException("Password does not match.");
