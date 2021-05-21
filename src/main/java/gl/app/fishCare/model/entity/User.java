@@ -1,10 +1,13 @@
 package gl.app.fishCare.model.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import gl.app.fishCare.model.utils.UserRole;
@@ -45,5 +48,10 @@ public class User {
 	private String encryptedPassword;
 
 	@Column(name = "userRole", nullable = false)
+	@Builder.Default
 	private UserRole userRole = UserRole.USER;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "hatchery_id", referencedColumnName = "id")
+	private Hatchery hatchery;
 }

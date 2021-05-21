@@ -29,7 +29,8 @@ public class FishCareApplication {
 			http.csrf().disable()
 			.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.authorizeRequests().antMatchers(HttpMethod.POST, "/user/**").permitAll().antMatchers(AUTH_WHITELIST)
-			.permitAll().antMatchers(HttpMethod.POST, "/example").permitAll().anyRequest().authenticated();
+			.permitAll().antMatchers(HttpMethod.POST, "/example").permitAll().antMatchers(HttpMethod.POST, "/hatchery/**")
+			.permitAll().anyRequest().authenticated();
 		}
 	}
 
