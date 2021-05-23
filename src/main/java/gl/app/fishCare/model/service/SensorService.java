@@ -23,6 +23,16 @@ public class SensorService {
 		return sensorRepository.findAll();
 	}
 
+	public Sensor getSensor(String name) throws EntityNotFoundException {
+		Optional<Sensor> optionalSensor = sensorRepository.findByName(name);
+
+		if (!optionalSensor.isPresent()) {
+			throw new EntityNotFoundException("Sensor not found");
+		}
+
+		return optionalSensor.get();
+	}
+
 
 	// Comprobar: duplicate key value violates unique constraint
 	public void create(String name, Float maxAllowedValue, Float minAllowedValue, Long hatcheryId) throws EntityNotFoundException {
