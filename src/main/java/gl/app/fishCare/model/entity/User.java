@@ -52,6 +52,6 @@ public class User {
 	private UserRole userRole = UserRole.USER;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "hatchery_id", referencedColumnName = "id")
+	@JoinColumn(name = "hatchery_id", referencedColumnName = "hatcheryId")
 	private Hatchery hatchery;
 }

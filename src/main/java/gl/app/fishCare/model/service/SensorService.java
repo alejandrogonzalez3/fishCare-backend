@@ -36,14 +36,16 @@ public class SensorService {
 
 	// Comprobar: duplicate key value violates unique constraint
 	public void create(String name, Float maxAllowedValue, Float minAllowedValue, Long hatcheryId) throws EntityNotFoundException {
-		SensorBuilder newSensor = Sensor.builder();
+		SensorBuilder newSensorBuilder = Sensor.builder();
 		Optional<Hatchery> optionalHatchery = hatcheryRepository.findById(hatcheryId);
 
 		if (!optionalHatchery.isPresent()) {
 			throw new EntityNotFoundException("Hatchery not found");
 		}
 
-		newSensor.maxAllowedValue(maxAllowedValue).minAllowedValue(minAllowedValue).name(name);
-		sensorRepository.save(newSensor.build());
+		Hatchery hatchery = optionalHatchery.get();
+		newSensorBuilder.maxAllowedValue(maxAllowedValue).minAllowedValue(minAllowedValue).name(name).hatchery(hatchery);
+		Sensor newSensor = newSensorBuilder.build();
+		sensorRepository.save(newSensor);
 	}
 }

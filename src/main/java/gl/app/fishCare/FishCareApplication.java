@@ -28,9 +28,11 @@ public class FishCareApplication {
 		protected void configure(HttpSecurity http) throws Exception {
 			http.csrf().disable()
 			.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
-			.authorizeRequests().antMatchers(HttpMethod.POST, "/user/**").permitAll().antMatchers(AUTH_WHITELIST)
-			.permitAll().antMatchers(HttpMethod.POST, "/example").permitAll().antMatchers(HttpMethod.POST, "/hatchery/**")
-			.permitAll().antMatchers("/sensor/**").permitAll().antMatchers("/sensorValue/**").permitAll().anyRequest().authenticated();
+			.authorizeRequests().antMatchers(HttpMethod.POST, "/user/**").permitAll()
+			.antMatchers(AUTH_WHITELIST).permitAll().antMatchers(HttpMethod.POST, "/example").permitAll()
+			.antMatchers(HttpMethod.POST, "/hatchery/**").permitAll().antMatchers("/sensor/**").permitAll()
+			.antMatchers("/sensorValue/**").permitAll().antMatchers("/actuator/**").permitAll().anyRequest()
+			.authenticated();
 		}
 	}
 
