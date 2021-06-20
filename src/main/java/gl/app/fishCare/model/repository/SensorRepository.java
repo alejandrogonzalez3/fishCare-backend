@@ -9,11 +9,4 @@ import gl.app.fishCare.model.entity.Sensor;
 public interface SensorRepository extends CrudRepository<Sensor, Long> {
 
 	Optional<Sensor> findByName(String name);
-
-	//	interface ValueAndDate{
-	//		String getValue();
-	//		String getDate();
-	//	}
-	//
-	//	List<ValueAndDate> findAllBy();
 }
