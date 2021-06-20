@@ -18,6 +18,10 @@ public class UserService {
 
 	private final UserRepository userRepository;
 
+	public Optional<User> findByUserName(String userName) {
+		return userRepository.findByUserName(userName);
+	}
+
 	public void signUpUser(User user) {
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
