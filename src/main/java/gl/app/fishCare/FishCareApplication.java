@@ -31,8 +31,8 @@ public class FishCareApplication {
 			.authorizeRequests().antMatchers(HttpMethod.POST, "/user/**").permitAll()
 			.antMatchers(AUTH_WHITELIST).permitAll().antMatchers(HttpMethod.POST, "/example").permitAll()
 			.antMatchers(HttpMethod.POST, "/hatchery/**").permitAll().antMatchers("/sensor/**").permitAll()
-			.antMatchers("/sensorValue/**").permitAll().antMatchers("/actuator/**").permitAll().anyRequest()
-			.authenticated();
+			.antMatchers("/sensorValue/**").permitAll().antMatchers("/actuator/**").permitAll()
+			.antMatchers("/notification/**").permitAll().anyRequest().authenticated();
 		}
 	}
 

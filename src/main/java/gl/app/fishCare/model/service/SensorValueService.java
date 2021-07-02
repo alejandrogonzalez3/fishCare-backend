@@ -3,6 +3,7 @@ package gl.app.fishCare.model.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -43,6 +44,16 @@ public class SensorValueService {
 		} else {
 			return new ArrayList<>();
 		}
+	}
+
+	public SensorValue getSensorValue(Long sensorValueId) throws EntityNotFoundException {
+		Optional<SensorValue> optionalSensorValue = sensorValueRepository.findById(sensorValueId);
+
+		if (!optionalSensorValue.isPresent()) {
+			throw new EntityNotFoundException("SensorValue not found");
+		}
+
+		return optionalSensorValue.get();
 	}
 
 }
