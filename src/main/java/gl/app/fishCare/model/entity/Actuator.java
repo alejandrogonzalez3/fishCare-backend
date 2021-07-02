@@ -26,7 +26,7 @@ public class Actuator {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "sensorId", nullable = false)
+	@Column(name = "actuatorId", nullable = false)
 	private Long id;
 
 	@Column(name = "name", unique = true, nullable = false, length = 100)
