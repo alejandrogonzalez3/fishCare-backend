@@ -36,6 +36,14 @@ public class SensorValueController {
 		return sensorValueService.getSensorValues(sensorName, page, size, sortBy);
 	}
 
+	@ApiOperation(value = "Petición GET para recuperar de manera paginada el ultimo valor de cada sensor")
+	@GetMapping("/last")
+	public List<SensorValue> getLastSensorValues(
+			@RequestParam(defaultValue = "0") Integer page,
+			@RequestParam(defaultValue = "10") Integer size, @RequestParam(defaultValue = "id") String sortBy) throws EntityNotFoundException {
+		return sensorValueService.getLastSensorValues(page, size, sortBy);
+	}
+
 	@ApiOperation(value = "Store Sensor value")
 	@PostMapping("store")
 	public void create(@RequestParam String sensorName, Float value) throws EntityNotFoundException{

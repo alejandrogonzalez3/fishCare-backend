@@ -30,8 +30,8 @@ public class SensorController {
 
 	@ApiOperation(value = "Create Sensor request")
 	@PostMapping("create")
-	public void create(@RequestParam String name, Float maxAllowedValue, Float minAllowedValue, Long hatcheryId) throws EntityNotFoundException{
-		sensorService.create(name, maxAllowedValue, minAllowedValue, hatcheryId);
+	public void create(@RequestParam String name, Float maxAllowedValue, Float minAllowedValue, Long hatcheryId, String units) throws EntityNotFoundException{
+		sensorService.create(name, maxAllowedValue, minAllowedValue, hatcheryId, units);
 	}
 
 }

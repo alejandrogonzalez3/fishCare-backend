@@ -36,6 +36,9 @@ public class Sensor {
 	@Column(name = "name", unique = true, nullable = false, length = 100)
 	private String name;
 
+	@Column(name = "units", nullable = false)
+	private String units;
+
 	@Column(name = "maxAllowedValue")
 	private Float maxAllowedValue;
 
