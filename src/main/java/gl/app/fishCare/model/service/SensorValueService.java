@@ -46,6 +46,18 @@ public class SensorValueService {
 		}
 	}
 
+	public List<SensorValue> getLastSensorValues(Integer page, Integer size, String sortBy) throws EntityNotFoundException {
+		Pageable paging = PageRequest.of(page, size, Sort.by(sortBy));
+
+		Page<SensorValue> pagedResult = sensorValueRepository.findLastSensorValues(paging);
+
+		if(pagedResult.hasContent()) {
+			return pagedResult.getContent();
+		} else {
+			return new ArrayList<>();
+		}
+	}
+
 	public SensorValue getSensorValue(Long sensorValueId) throws EntityNotFoundException {
 		Optional<SensorValue> optionalSensorValue = sensorValueRepository.findById(sensorValueId);
 

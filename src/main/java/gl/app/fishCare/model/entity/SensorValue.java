@@ -42,7 +42,6 @@ public class SensorValue {
 
 	@ManyToOne()
 	@JoinColumn(name = "sensorId")
-	@JsonIgnore
 	private Sensor sensor;
 
 	@OneToMany(mappedBy = "sensorValue", cascade = CascadeType.ALL, orphanRemoval = true)
