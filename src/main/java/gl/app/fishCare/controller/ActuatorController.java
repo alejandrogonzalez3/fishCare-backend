@@ -1,10 +1,13 @@
 package gl.app.fishCare.controller;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import gl.app.fishCare.model.entity.Actuator;
@@ -28,8 +31,14 @@ public class ActuatorController {
 		this.mqttMessageClient = mqttMessageClient;
 	}
 
+	@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Actuator not found")
+	@ExceptionHandler({ EntityNotFoundException.class })
+	public void handleException() {
+		// Nothing to do
+	}
+
 	@ApiOperation(value = "Petición GET para recuperar todos los actuadores")
-	@GetMapping("/")
+	@GetMapping("all")
 	public Iterable<Actuator> getAllActuators() {
 		return actuatorService.getAllActuators();
 	}

@@ -16,11 +16,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Builder
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor // necesario para cargarlo desde @ConfigurationProperties - el @AllArgsConstructor lo quita
 @Entity
@@ -36,6 +38,7 @@ public class Hatchery {
 	private String name;
 
 	@OneToOne(mappedBy = "hatchery")
+	@JsonIgnore
 	private User user;
 
 	@OneToMany(mappedBy = "hatchery", cascade = CascadeType.ALL, orphanRemoval = true)
