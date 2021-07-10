@@ -13,5 +13,8 @@ public interface NotificationRepository extends CrudRepository<Notification, Lon
 	@Query("SELECT n FROM Notification n WHERE n.sensorValue.sensor.id=:sensorId")
 	Page<Notification> findBySensorId(@Param("sensorId") Long sensorId, Pageable pageable);
 
+	@Query("SELECT n FROM Notification n WHERE n.isRead = FALSE")
+	Page<Notification> findNotReadNotifications(Pageable pageable);
+
 }
 
