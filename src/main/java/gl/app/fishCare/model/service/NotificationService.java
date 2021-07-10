@@ -2,6 +2,7 @@ package gl.app.fishCare.model.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,6 +36,19 @@ public class NotificationService {
 		notificationRepository.save(notificationBuilder.build());
 	}
 
+	public void readNotification(Long notificationId) throws EntityNotFoundException {
+		Optional<Notification> optionalNotification = notificationRepository.findById(notificationId);
+
+		if (!optionalNotification.isPresent()) {
+			throw new EntityNotFoundException("Notification not found");
+		}
+
+		Notification notification = optionalNotification.get();
+		notification.setIsRead(true);
+
+		notificationRepository.save(notification);
+	}
+
 	public List<Notification> getNotifications(String sensorName, Integer page, Integer size, String sortBy) throws EntityNotFoundException {
 		Pageable paging = PageRequest.of(page, size, Sort.by(sortBy));
 		Sensor sensor = sensorService.getSensor(sensorName);
@@ -47,5 +61,18 @@ public class NotificationService {
 			return new ArrayList<>();
 		}
 	}
+
+	public List<Notification> getNotReadNotifications(Integer page, Integer size, String sortBy) {
+		Pageable paging = PageRequest.of(page, size, Sort.by(sortBy));
+
+		Page<Notification> pagedResult = notificationRepository.findNotReadNotifications(paging);
+
+		if(pagedResult.hasContent()) {
+			return pagedResult.getContent();
+		} else {
+			return new ArrayList<>();
+		}
+	}
+
 
 }

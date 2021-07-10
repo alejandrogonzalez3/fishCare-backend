@@ -34,10 +34,25 @@ public class NotificationController {
 		return notificationService.getNotifications(sensorName, page, size, sortBy);
 	}
 
-	@ApiOperation(value = "Create notification")
+	@ApiOperation(value = "Petición GET para recuperar de manera paginada las notificaciones de un sensor que aún no han sido leídas")
+	@GetMapping("notRead")
+	public List<Notification> getNotReadNotifications(@RequestParam(defaultValue = "0") Integer page,
+			@RequestParam(defaultValue = "10") Integer size, @RequestParam(defaultValue = "id") String sortBy) {
+
+		return notificationService.getNotReadNotifications(page, size, sortBy);
+	}
+
+	@ApiOperation(value = "Marcar una notificación como leída")
+	@PostMapping("read")
+	public void maskAsRead(@RequestParam Long notificationId) throws EntityNotFoundException {
+		notificationService.readNotification(notificationId);
+	}
+
+	@ApiOperation(value = "Crear notificación")
 	@PostMapping("create")
 	public void create(@RequestParam Long sensorValueId, NotificationType notificationType)
 			throws EntityNotFoundException {
 		notificationService.createNotification(sensorValueId, notificationType);
 	}
+
 }

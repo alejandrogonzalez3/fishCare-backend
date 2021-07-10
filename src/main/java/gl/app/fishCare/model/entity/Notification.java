@@ -9,8 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import gl.app.fishCare.model.utils.NotificationType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 @AllArgsConstructor
-@NoArgsConstructor // necesario para cargarlo desde @ConfigurationProperties - el @AllArgsConstructor lo quita
+@NoArgsConstructor
 @Entity
 @Table(name = "Notification")
 public class Notification {
@@ -33,9 +31,12 @@ public class Notification {
 	@Column(name = "notificationType", nullable = false)
 	private NotificationType notificationType;
 
+	@Column(name = "isRead", nullable = false)
+	@Builder.Default
+	private Boolean isRead = false;
+
 	@ManyToOne()
 	@JoinColumn(name = "sensorValueId")
-	@JsonIgnore
 	private SensorValue sensorValue;
 
 }
