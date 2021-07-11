@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import gl.app.fishCare.model.entity.User;
 import gl.app.fishCare.model.exception.InvalidLoginException;
 import gl.app.fishCare.model.repository.UserRepository;
+import gl.app.fishCare.model.utils.UserCreationResponse;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -22,7 +23,7 @@ public class UserService {
 		return userRepository.findByUserName(userName);
 	}
 
-	public void signUpUser(User user) {
+	public UserCreationResponse signUpUser(User user) {
 		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 		final String encryptedPassword = passwordEncoder.encode(user.getPassword());
@@ -31,7 +32,10 @@ public class UserService {
 		// TODO: Avoid to save this field in the Database
 		user.setPassword(null);
 
-		userRepository.save(user);
+		user = userRepository.save(user);
+
+		UserCreationResponse userCreationResponse = UserCreationResponse.builder().email(user.getEmail()).id(user.getId()).userName(user.getUserName()).build();
+		return userCreationResponse;
 	}
 
 	public void login(String username, String password) throws InvalidLoginException {

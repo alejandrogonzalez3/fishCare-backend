@@ -25,17 +25,17 @@ public class SensorValueService {
 	private final SensorService sensorService;
 	private final SensorValueRepository sensorValueRepository;
 
-	public void storeSensorValue(Float value, String sensorName) throws EntityNotFoundException {
-		Sensor sensor = sensorService.getSensor(sensorName);
+	public void storeSensorValue(Float value, String sensorName, Long hatcheryId) throws EntityNotFoundException {
+		Sensor sensor = sensorService.getSensor(hatcheryId, sensorName);
 		SensorValueBuilder sensorValueBuilder = SensorValue.builder();
 
 		sensorValueBuilder.value(value).sensor(sensor).date(new Date());
 		sensorValueRepository.save(sensorValueBuilder.build());
 	}
 
-	public List<SensorValue> getSensorValues(String sensorName, Integer page, Integer size, String sortBy) throws EntityNotFoundException {
+	public List<SensorValue> getSensorValues(Long hatcheryId, String sensorName, Integer page, Integer size, String sortBy) throws EntityNotFoundException {
 		Pageable paging = PageRequest.of(page, size, Sort.by(sortBy));
-		Sensor sensor = sensorService.getSensor(sensorName);
+		Sensor sensor = sensorService.getSensor(hatcheryId, sensorName);
 
 		Page<SensorValue> pagedResult = sensorValueRepository.findBySensorId(sensor.getId(), paging);
 
@@ -46,10 +46,10 @@ public class SensorValueService {
 		}
 	}
 
-	public List<SensorValue> getLastSensorValues(Integer page, Integer size, String sortBy) throws EntityNotFoundException {
+	public List<SensorValue> getLastSensorValues(Long hatcheryId, Integer page, Integer size, String sortBy) throws EntityNotFoundException {
 		Pageable paging = PageRequest.of(page, size, Sort.by(sortBy));
 
-		Page<SensorValue> pagedResult = sensorValueRepository.findLastSensorValues(paging);
+		Page<SensorValue> pagedResult = sensorValueRepository.findLastSensorValues(hatcheryId, paging);
 
 		if(pagedResult.hasContent()) {
 			return pagedResult.getContent();

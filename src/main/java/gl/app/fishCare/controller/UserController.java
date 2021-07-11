@@ -19,6 +19,7 @@ import gl.app.fishCare.model.entity.User;
 import gl.app.fishCare.model.exception.InvalidLoginException;
 import gl.app.fishCare.model.service.UserService;
 import gl.app.fishCare.model.utils.UserCreationRequest;
+import gl.app.fishCare.model.utils.UserCreationResponse;
 import gl.app.fishCare.model.utils.UserRole;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -43,9 +44,8 @@ public class UserController {
 
 	@ApiOperation(value = "SignUp Request")
 	@PostMapping("signup")
-	public void signUp(@RequestBody UserCreationRequest body) {
-		userService.signUpUser(User.builder().userName(body.getUserName()).firstName(body.getFirstName())
-				.lastName(body.getLastName()).email(body.getEmail()).password(body.getPassword()).userRole(UserRole.USER).build());
+	public UserCreationResponse signUp(@RequestBody UserCreationRequest body) {
+		return userService.signUpUser(User.builder().userName(body.getUserName()).email(body.getEmail()).password(body.getPassword()).userRole(UserRole.USER).build());
 	}
 
 	@ApiOperation(value = "Login Request")

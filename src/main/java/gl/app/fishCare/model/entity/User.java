@@ -34,12 +34,6 @@ public class User {
 	@Column(name = "userName", nullable = false, length = 100)
 	private String userName;
 
-	@Column(name = "firstName", length = 100)
-	private String firstName;
-
-	@Column(name = "lastName", length = 100)
-	private String lastName;
-
 	@Column(name = "email")
 	private String email;
 

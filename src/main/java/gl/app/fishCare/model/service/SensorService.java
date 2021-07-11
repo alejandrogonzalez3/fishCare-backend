@@ -23,8 +23,8 @@ public class SensorService {
 		return sensorRepository.findAll();
 	}
 
-	public Sensor getSensor(String name) throws EntityNotFoundException {
-		Optional<Sensor> optionalSensor = sensorRepository.findByName(name);
+	public Sensor getSensor(Long hatcheryId, String name) throws EntityNotFoundException {
+		Optional<Sensor> optionalSensor = sensorRepository.findByNameAndHatcheryId(hatcheryId, name);
 
 		if (!optionalSensor.isPresent()) {
 			throw new EntityNotFoundException("Sensor not found");

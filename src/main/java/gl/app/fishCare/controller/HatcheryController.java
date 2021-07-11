@@ -39,8 +39,8 @@ public class HatcheryController {
 	// Checar quen pode facer isto (ou a maneira de restrinxilo)
 	@ApiOperation(value = "Create Hatchery request")
 	@PostMapping("create")
-	public void create(@RequestParam String name, String userName) throws EntityNotFoundException, HatcheryAlreadyAssignedException {
-		hatcheryService.createHatchery(name, userName);
+	public void create(@RequestParam Long userId, String name) throws EntityNotFoundException, HatcheryAlreadyAssignedException {
+		hatcheryService.createHatchery(userId, name);
 	}
 
 }

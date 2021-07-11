@@ -39,8 +39,8 @@ public class ActuatorController {
 
 	@ApiOperation(value = "Petición GET para recuperar todos los actuadores")
 	@GetMapping("all")
-	public Iterable<Actuator> getAllActuators() {
-		return actuatorService.getAllActuators();
+	public Iterable<Actuator> getAllActuators(@RequestParam Long hatcheryId) {
+		return actuatorService.getAllActuators(hatcheryId);
 	}
 
 	@ApiOperation(value = "Create Actuator request")
@@ -51,8 +51,8 @@ public class ActuatorController {
 
 	@ApiOperation(value = "Publicacion de un mensaje de encendido con el protocolo MQTT a cierto actuador")
 	@PostMapping("on")
-	public void actuatorOnMqtt(@RequestParam String name) throws EntityNotFoundException {
-		actuatorService.getActuator(name);
+	public void actuatorOnMqtt(@RequestParam String name, @RequestParam Long hatcheryId) throws EntityNotFoundException {
+		actuatorService.getActuator(name, hatcheryId);
 		String topic = baseTopic + "/" + name;
 		System.out.println(topic);
 
@@ -61,8 +61,8 @@ public class ActuatorController {
 
 	@ApiOperation(value = "Publicacion de un mensaje de apagado con el protocolo MQTT a cierto actuador")
 	@PostMapping("off")
-	public void actuatorOffMqtt(@RequestParam String name) throws EntityNotFoundException {
-		actuatorService.getActuator(name);
+	public void actuatorOffMqtt(@RequestParam String name, @RequestParam Long hatcheryId) throws EntityNotFoundException {
+		actuatorService.getActuator(name, hatcheryId);
 		String topic = baseTopic + "/" + name;
 		System.out.println(topic);
 

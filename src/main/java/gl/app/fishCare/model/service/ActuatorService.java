@@ -19,12 +19,12 @@ public class ActuatorService {
 	private final ActuatorRepository actuatorRepository;
 	private final HatcheryRepository hatcheryRepository;
 
-	public Iterable<Actuator> getAllActuators() {
-		return actuatorRepository.findAll();
+	public Iterable<Actuator> getAllActuators(Long hatcheryId) {
+		return actuatorRepository.findByHatcheryId(hatcheryId);
 	}
 
-	public Actuator getActuator(String name) throws EntityNotFoundException {
-		Optional<Actuator> optionalActuator = actuatorRepository.findByName(name);
+	public Actuator getActuator(String name, Long hatcheryId) throws EntityNotFoundException {
+		Optional<Actuator> optionalActuator = actuatorRepository.findByNameAndHatcheryId(hatcheryId, name);
 
 		if (!optionalActuator.isPresent()) {
 			throw new EntityNotFoundException("Actuator not found");

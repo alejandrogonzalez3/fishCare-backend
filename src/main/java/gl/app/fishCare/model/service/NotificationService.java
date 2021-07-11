@@ -49,9 +49,9 @@ public class NotificationService {
 		notificationRepository.save(notification);
 	}
 
-	public List<Notification> getNotifications(String sensorName, Integer page, Integer size, String sortBy) throws EntityNotFoundException {
+	public List<Notification> getNotifications(String sensorName, Long hatcheryId, Integer page, Integer size, String sortBy) throws EntityNotFoundException {
 		Pageable paging = PageRequest.of(page, size, Sort.by(sortBy));
-		Sensor sensor = sensorService.getSensor(sensorName);
+		Sensor sensor = sensorService.getSensor(hatcheryId, sensorName);
 
 		Page<Notification> pagedResult = notificationRepository.findBySensorId(sensor.getId(), paging);
 
@@ -62,10 +62,10 @@ public class NotificationService {
 		}
 	}
 
-	public List<Notification> getNotReadNotifications(Integer page, Integer size, String sortBy) {
+	public List<Notification> getNotReadNotifications(Long hatcheryId, Integer page, Integer size, String sortBy) {
 		Pageable paging = PageRequest.of(page, size, Sort.by(sortBy));
 
-		Page<Notification> pagedResult = notificationRepository.findNotReadNotifications(paging);
+		Page<Notification> pagedResult = notificationRepository.findNotReadNotifications(hatcheryId, paging);
 
 		if(pagedResult.hasContent()) {
 			return pagedResult.getContent();
