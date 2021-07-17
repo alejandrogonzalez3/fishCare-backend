@@ -2,12 +2,15 @@ package gl.app.fishCare.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import gl.app.fishCare.model.entity.Hatchery;
 import gl.app.fishCare.model.exception.EntityNotFoundException;
 import gl.app.fishCare.model.exception.HatcheryAlreadyAssignedException;
 import gl.app.fishCare.model.service.HatcheryService;
@@ -39,8 +42,14 @@ public class HatcheryController {
 	// Checar quen pode facer isto (ou a maneira de restrinxilo)
 	@ApiOperation(value = "Create Hatchery request")
 	@PostMapping("create")
-	public void create(@RequestParam Long userId, String name) throws EntityNotFoundException, HatcheryAlreadyAssignedException {
-		hatcheryService.createHatchery(userId, name);
+	public Hatchery create(@RequestParam Long userId, String name) throws EntityNotFoundException, HatcheryAlreadyAssignedException {
+		return hatcheryService.createHatchery(userId, name);
+	}
+
+	@ApiOperation(value = "Petición GET para recuperar el vivero de un usuario concreto")
+	@GetMapping("/user")
+	public Hatchery getUserHatchery(@RequestAttribute Long userId) throws EntityNotFoundException {
+		return hatcheryService.getUserHatchery(userId);
 	}
 
 }

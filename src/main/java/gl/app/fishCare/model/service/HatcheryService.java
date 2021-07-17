@@ -20,7 +20,7 @@ public class HatcheryService {
 	private final UserRepository userRepository;
 
 	// Comprobar: duplicate key value violates unique constraint
-	public void createHatchery(Long userId, String name) throws EntityNotFoundException, HatcheryAlreadyAssignedException {
+	public Hatchery createHatchery(Long userId, String name) throws EntityNotFoundException, HatcheryAlreadyAssignedException {
 		Hatchery newHatchery = new Hatchery();
 		Optional<User> optionalUser = userRepository.findById(userId);
 
@@ -37,7 +37,16 @@ public class HatcheryService {
 		newHatchery.setName(name);
 		newHatchery.setUser(user);
 		user.setHatchery(newHatchery);
-		hatcheryRepository.save(newHatchery);
+		return hatcheryRepository.save(newHatchery);
+	}
+
+	public Hatchery getUserHatchery(Long userId) throws EntityNotFoundException {
+		Optional<Hatchery> optionalHatchery = hatcheryRepository.findByUserId(userId);
+
+		if (!optionalHatchery.isPresent()) {
+			throw new EntityNotFoundException("Hatchery not found");
+		}
+		return optionalHatchery.get();
 	}
 
 }
