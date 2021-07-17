@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import gl.app.fishCare.model.entity.User;
 import gl.app.fishCare.model.exception.InvalidLoginException;
 import gl.app.fishCare.model.repository.UserRepository;
+import gl.app.fishCare.model.utils.JwtUtils;
 import gl.app.fishCare.model.utils.UserCreationResponse;
 import lombok.AllArgsConstructor;
 
@@ -34,11 +35,13 @@ public class UserService {
 
 		user = userRepository.save(user);
 
-		UserCreationResponse userCreationResponse = UserCreationResponse.builder().email(user.getEmail()).id(user.getId()).userName(user.getUserName()).build();
+		String jwt = JwtUtils.getJWTToken(user.getUserName(), user.getId());
+
+		UserCreationResponse userCreationResponse = UserCreationResponse.builder().email(user.getEmail()).id(user.getId()).userName(user.getUserName()).jwt(jwt).build();
 		return userCreationResponse;
 	}
 
-	public void login(String username, String password) throws InvalidLoginException {
+	public User login(String username, String password) throws InvalidLoginException {
 		new BCryptPasswordEncoder();
 		Optional<User> optionalUser = userRepository.findByUserName(username);
 
@@ -51,6 +54,8 @@ public class UserService {
 		if (!BCrypt.checkpw(password, user.getEncryptedPassword())) {
 			throw new InvalidLoginException("Password does not match.");
 		}
+
+		return user;
 
 	}
 

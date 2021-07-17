@@ -28,7 +28,8 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 	private final String SECRET = "mySecretKey";
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+			throws ServletException, IOException {
 		try {
 			if (existeJWTToken(request, response)) {
 				Claims claims = validateToken(request);
@@ -44,7 +45,6 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 		} catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException e) {
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 			response.sendError(HttpServletResponse.SC_FORBIDDEN, e.getMessage());
-			return;
 		}
 	}
 
@@ -65,14 +65,22 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
 		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(claims.getSubject(), null,
 				authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
 		SecurityContextHolder.getContext().setAuthentication(auth);
-
 	}
 
 	private boolean existeJWTToken(HttpServletRequest request, HttpServletResponse res) {
 		String authenticationHeader = request.getHeader(HEADER);
-		if (authenticationHeader == null || !authenticationHeader.startsWith(PREFIX))
-			return false;
-		return true;
+		if (authenticationHeader != null) {
+			String serviceToken = authenticationHeader.replace("Bearer ", "");
+			JwtInfo jwtInfo = getInfo(serviceToken);
+			request.setAttribute("userId", jwtInfo.getUserId());
+		}
+
+		return !(authenticationHeader == null || !authenticationHeader.startsWith(PREFIX));
+	}
+
+	private JwtInfo getInfo(String token) {
+		Claims claims = Jwts.parser().setSigningKey(SECRET.getBytes()).parseClaimsJws(token).getBody();
+		return new JwtInfo(Long.valueOf(claims.getId()), claims.getSubject());
 	}
 
 }

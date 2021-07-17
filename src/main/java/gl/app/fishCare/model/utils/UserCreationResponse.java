@@ -9,4 +9,5 @@ public class UserCreationResponse {
 	private Long id;
 	private String userName;
 	private String email;
+	private String jwt;
 }

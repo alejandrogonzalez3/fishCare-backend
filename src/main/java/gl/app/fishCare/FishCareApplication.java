@@ -24,15 +24,23 @@ public class FishCareApplication {
 				// -- swagger ui
 				"/swagger-resources/**", "/swagger-ui.html", "/v2/api-docs", "/webjars/**", "/example/" };
 
+		//		@Override
+		//		protected void configure(HttpSecurity http) throws Exception {
+		//			http.csrf().disable()
+		//			.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+		//			.authorizeRequests().antMatchers(HttpMethod.POST, "/user/**").permitAll()
+		//			.antMatchers(AUTH_WHITELIST).permitAll().antMatchers(HttpMethod.POST, "/example").permitAll()
+		//			.antMatchers(HttpMethod.POST, "/hatchery/**").permitAll().antMatchers("/sensor/**").permitAll()
+		//			.antMatchers("/sensorValue/**").permitAll().antMatchers("/actuator/**").permitAll()
+		//			.antMatchers("/notification/**").permitAll().anyRequest().authenticated();
+		//		}
+
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http.csrf().disable()
 			.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 			.authorizeRequests().antMatchers(HttpMethod.POST, "/user/**").permitAll()
-			.antMatchers(AUTH_WHITELIST).permitAll().antMatchers(HttpMethod.POST, "/example").permitAll()
-			.antMatchers(HttpMethod.POST, "/hatchery/**").permitAll().antMatchers("/sensor/**").permitAll()
-			.antMatchers("/sensorValue/**").permitAll().antMatchers("/actuator/**").permitAll()
-			.antMatchers("/notification/**").permitAll().anyRequest().authenticated();
+			.antMatchers(AUTH_WHITELIST).permitAll().anyRequest().authenticated();
 		}
 	}
 
