@@ -2,6 +2,7 @@ package gl.app.fishCare.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +33,12 @@ public class SensorController {
 	@PostMapping("create")
 	public void create(@RequestParam String name, Float maxAllowedValue, Float minAllowedValue, Long hatcheryId, String units) throws EntityNotFoundException{
 		sensorService.create(name, maxAllowedValue, minAllowedValue, hatcheryId, units);
+	}
+
+	@ApiOperation(value = "Update Sensor request")
+	@PutMapping("update")
+	public void update(@RequestParam Long id, @RequestParam(defaultValue = "") String name, @RequestParam(defaultValue = "") Float maxAllowedValue, @RequestParam(defaultValue = "") Float minAllowedValue, @RequestParam(defaultValue = "") String units) throws EntityNotFoundException{
+		sensorService.update(id, name, maxAllowedValue, minAllowedValue, units);
 	}
 
 }

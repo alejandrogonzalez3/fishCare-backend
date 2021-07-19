@@ -48,4 +48,32 @@ public class SensorService {
 		Sensor newSensor = newSensorBuilder.build();
 		sensorRepository.save(newSensor);
 	}
+
+	// Comprobar: duplicate key value violates unique constraint
+	public void update(Long sensorId, String name, Float maxAllowedValue, Float minAllowedValue, String units) throws EntityNotFoundException {
+		Optional<Sensor> optionalSensor = sensorRepository.findById(sensorId);
+
+		if (!optionalSensor.isPresent()) {
+			throw new EntityNotFoundException("Sensor not found");
+		}
+
+		Sensor sensor = optionalSensor.get();
+		if (!name.equals("")) {
+			sensor.setName(name);
+		}
+
+		if (maxAllowedValue != null) {
+			sensor.setMaxAllowedValue(maxAllowedValue);
+		}
+
+		if (minAllowedValue != null) {
+			sensor.setMinAllowedValue(minAllowedValue);
+		}
+
+		if (!units.equals("")) {
+			sensor.setUnits(units);
+		}
+
+		sensorRepository.save(sensor);
+	}
 }
