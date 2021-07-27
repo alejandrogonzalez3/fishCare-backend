@@ -1,5 +1,7 @@
 package gl.app.fishCare.model.service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -47,6 +49,39 @@ public class HatcheryService {
 			throw new EntityNotFoundException("Hatchery not found");
 		}
 		return optionalHatchery.get();
+	}
+
+	public Hatchery getHatchery(Long hatcheryId) throws EntityNotFoundException {
+		Optional<Hatchery> optionalHatchery = hatcheryRepository.findById(hatcheryId);
+
+		if (!optionalHatchery.isPresent()) {
+			throw new EntityNotFoundException("Hatchery not found");
+		}
+		return optionalHatchery.get();
+	}
+
+	public Map<String, Boolean> getDefaultActuatorsBehaviour(Long hatcheryId) throws EntityNotFoundException {
+		Hatchery hatchery = getHatchery(hatcheryId);
+
+		Map<String, Boolean> defaultActuatorsBehaviour = new HashMap<String, Boolean>();
+		defaultActuatorsBehaviour.put("oxygenator", hatchery.getAutoOxygenator());
+		defaultActuatorsBehaviour.put("waterPump", hatchery.getAutoWaterPump());
+
+		return defaultActuatorsBehaviour;
+	}
+
+	public void setOxygenatorDefaultBehaviour(Long hatcheryId, Boolean defaultBehaviour) throws EntityNotFoundException {
+		Hatchery hatchery = getHatchery(hatcheryId);
+
+		hatchery.setAutoOxygenator(defaultBehaviour);
+		hatcheryRepository.save(hatchery);
+	}
+
+	public void setWaterPumpDefaultBehaviour(Long hatcheryId, Boolean defaultBehaviour) throws EntityNotFoundException {
+		Hatchery hatchery = getHatchery(hatcheryId);
+
+		hatchery.setAutoWaterPump(defaultBehaviour);
+		hatcheryRepository.save(hatchery);
 	}
 
 }
