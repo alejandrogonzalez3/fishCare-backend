@@ -1,5 +1,7 @@
 package gl.app.fishCare.controller;
 
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,6 +52,24 @@ public class HatcheryController {
 	@GetMapping("/user")
 	public Hatchery getUserHatchery(@RequestAttribute Long userId) throws EntityNotFoundException {
 		return hatcheryService.getUserHatchery(userId);
+	}
+
+	@ApiOperation(value = "Get default auto actuators behaviour")
+	@GetMapping("actuators")
+	public Map<String, Boolean> getDefaultActuatorsBehaviour(@RequestParam Long hatcheryId) throws EntityNotFoundException {
+		return hatcheryService.getDefaultActuatorsBehaviour(hatcheryId);
+	}
+
+	@ApiOperation(value = "Change oxygenator default behaviour")
+	@PostMapping("defaultOxygenator")
+	public void setOxygenatorDefaultBehaviour(@RequestParam Long hatcheryId, Boolean defaultBehaviour) throws EntityNotFoundException {
+		hatcheryService.setOxygenatorDefaultBehaviour(hatcheryId, defaultBehaviour);
+	}
+
+	@ApiOperation(value = "Change waterPump default behaviour")
+	@PostMapping("defaultWaterPump")
+	public void setWaterPumpDefaultBehaviour(@RequestParam Long hatcheryId, Boolean defaultBehaviour) throws EntityNotFoundException {
+		hatcheryService.setWaterPumpDefaultBehaviour(hatcheryId, defaultBehaviour);
 	}
 
 }

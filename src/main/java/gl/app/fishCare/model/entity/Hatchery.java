@@ -37,6 +37,14 @@ public class Hatchery {
 	@Column(name = "name", unique = true, nullable = false, length = 100)
 	private String name;
 
+	@Column(name = "autoOxygenator")
+	@Builder.Default
+	private Boolean autoOxygenator = false;
+
+	@Column(name = "autoWaterPump")
+	@Builder.Default
+	private Boolean autoWaterPump = false;
+
 	@OneToOne(mappedBy = "hatchery")
 	@JsonIgnore
 	private User user;
